@@ -230,8 +230,8 @@ int main (int argc, char * argv[])
     if (polar) {
         PAD_UB = theta.from() - theta.to();
         PAD_UB -= grid.th_max;
-        PAD_LB = theta.from() - theta.to();
-        PAD_LB -= grid.th_min;
+        PAD_LB = theta.to() - theta.from();
+        PAD_LB += grid.th_min;
     }
     else {        
         DebugOff("Number of bus_pairs = " << bus_pairs.size() << endl);
@@ -242,7 +242,7 @@ int main (int argc, char * argv[])
         PAD_LB -= grid.tan_th_min*(vr.from()*vr.to() + vi.from()*vi.to());
     }
     ACOPF.add(PAD_UB.in(bus_pairs) <= 0);
-    ACOPF.add(PAD_LB.in(bus_pairs) >= 0);
+    ACOPF.add(PAD_LB.in(bus_pairs) <= 0);
 
 
     /*  Thermal Limit Constraints */
